@@ -1,5 +1,6 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Home from './pages/Home';
+import ProductDetail from './pages/ProductDetail';
 
 function App() {
   return (
@@ -17,7 +18,7 @@ function App() {
         <main className="max-w-7xl mx-auto py-10 px-4">
           <Routes>
             <Route path="/" element={<Home />} />
-            {/* You can add a Product Page route here later */}
+            <Route path="/product/:handle" element={<ProductDetail />} />
           </Routes>
         </main>
       </div>

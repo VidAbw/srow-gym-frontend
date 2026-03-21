@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { getAllProducts, createCheckout } from '../lib/shopify';
+import { Link } from 'react-router-dom';
 
 export default function Home() {
   const [products, setProducts] = useState([]);
@@ -37,28 +38,35 @@ export default function Home() {
 
             return (
               <div key={node.id} className="group cursor-pointer">
-                <div className="relative overflow-hidden bg-gray-100 h-[450px]">
-                  {imageUrl && (
-                    <img 
-                      src={imageUrl} 
-                      alt={node.title} 
-                      className="h-full w-full object-cover object-center transition-transform duration-500 group-hover:scale-105" 
-                    />
-                  )}
-                  {/* BUY BUTTON OVERLAY */}
-                  <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
-                    <button 
-                      onClick={() => createCheckout(variantId)}
-                      className="bg-white text-black px-8 py-3 font-bold uppercase tracking-tight hover:bg-gray-200"
-                    >
-                      Quick Buy
-                    </button>
+                <Link to={`/product/${node.handle}`}>
+                  <div className="relative overflow-hidden bg-gray-100 h-[450px]">
+                    {imageUrl && (
+                      <img 
+                        src={imageUrl} 
+                        alt={node.title} 
+                        className="h-full w-full object-cover object-center transition-transform duration-500 group-hover:scale-105" 
+                      />
+                    )}
+                    {/* BUY BUTTON OVERLAY */}
+                    <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                      <button 
+                        onClick={(e) => {
+                          e.preventDefault();
+                          createCheckout(variantId);
+                        }}
+                        className="bg-white text-black px-8 py-3 font-bold uppercase tracking-tight hover:bg-gray-200"
+                      >
+                        Quick Buy
+                      </button>
+                    </div>
                   </div>
-                </div>
+                </Link>
                 
                 <div className="mt-4 flex justify-between items-start">
                   <div>
-                    <h3 className="text-sm font-bold uppercase">{node.title}</h3>
+                    <Link to={`/product/${node.handle}`}>
+                      <h3 className="text-sm font-bold uppercase">{node.title}</h3>
+                    </Link>
                     <p className="text-xs text-gray-500 uppercase mt-1">Gym Apparel</p>
                   </div>
                   <p className="text-sm font-bold">¥{Math.round(price)}</p>
