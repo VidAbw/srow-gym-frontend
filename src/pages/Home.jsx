@@ -32,45 +32,19 @@ export default function Home() {
         
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-12">
           {products.map(({ node }) => {
-            const variantId = node.variants.edges[0]?.node.id;
-            const imageUrl = node.images.edges[0]?.node.url;
-            const price = node.priceRange.minVariantPrice.amount;
-
             return (
-              <div key={node.id} className="group cursor-pointer">
+              <div key={node.id} className="group border p-4 rounded-lg shadow-lg bg-white">
                 <Link to={`/product/${node.handle}`}>
-                  <div className="relative overflow-hidden bg-gray-100 h-[450px]">
-                    {imageUrl && (
-                      <img 
-                        src={imageUrl} 
-                        alt={node.title} 
-                        className="h-full w-full object-cover object-center transition-transform duration-500 group-hover:scale-105" 
-                      />
-                    )}
-                    {/* BUY BUTTON OVERLAY */}
-                    <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
-                      <button 
-                        onClick={(e) => {
-                          e.preventDefault();
-                          createCheckout(variantId);
-                        }}
-                        className="bg-white text-black px-8 py-3 font-bold uppercase tracking-tight hover:bg-gray-200"
-                      >
-                        Quick Buy
-                      </button>
-                    </div>
-                  </div>
+                  <img src={node.images.edges[0]?.node.url} alt={node.title} className="w-full h-64 object-cover rounded" />
+                  <h2 className="mt-4 text-xl font-bold uppercase tracking-tighter italic">{node.title}</h2>
                 </Link>
-                
-                <div className="mt-4 flex justify-between items-start">
-                  <div>
-                    <Link to={`/product/${node.handle}`}>
-                      <h3 className="text-sm font-bold uppercase">{node.title}</h3>
-                    </Link>
-                    <p className="text-xs text-gray-500 uppercase mt-1">Gym Apparel</p>
-                  </div>
-                  <p className="text-sm font-bold">¥{Math.round(price)}</p>
-                </div>
+                <p className="text-gray-600 font-mono">¥{Math.round(node.priceRange.minVariantPrice.amount)}</p>
+                <button 
+                  onClick={() => createCheckout(node.variants.edges[0]?.node.id)}
+                  className="mt-4 w-full bg-black text-white py-2 font-black uppercase italic hover:bg-zinc-800"
+                >
+                  Quick Buy
+                </button>
               </div>
             );
           })}
