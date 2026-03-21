@@ -30,18 +30,18 @@ export default function Home() {
       <section className="max-w-7xl mx-auto py-16 px-4">
         <h2 className="text-2xl font-bold uppercase tracking-wider mb-12 border-b-2 border-black inline-block">New Drops</h2>
         
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-12">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 lg:gap-12">
           {products.map(({ node }) => {
             return (
-              <div key={node.id} className="group border p-4 rounded-lg shadow-lg bg-white">
+              <div key={node.id} className="group border p-3 sm:p-4 rounded-lg shadow-lg bg-white">
                 <Link to={`/product/${node.handle}`}>
-                  <img src={node.images.edges[0]?.node.url} alt={node.title} className="w-full h-64 object-cover rounded" />
-                  <h2 className="mt-4 text-xl font-bold uppercase tracking-tighter italic">{node.title}</h2>
+                  <img src={node.images.edges[0]?.node.url} alt={node.title} className="w-full h-56 sm:h-64 object-cover rounded" />
+                  <h2 className="mt-3 sm:mt-4 text-lg sm:text-xl font-bold uppercase tracking-tighter italic leading-tight">{node.title}</h2>
                 </Link>
-                <p className="text-gray-600 font-mono">¥{Math.round(node.priceRange.minVariantPrice.amount)}</p>
+                <p className="mt-1 text-gray-600 font-mono text-sm sm:text-base">¥{Math.round(node.priceRange.minVariantPrice.amount)}</p>
                 <button 
                   onClick={() => createCheckout(node.variants.edges[0]?.node.id)}
-                  className="mt-4 w-full bg-black text-white py-2 font-black uppercase italic hover:bg-zinc-800"
+                  className="mt-3 sm:mt-4 w-full min-h-11 rounded bg-black text-white px-3 py-2.5 text-sm sm:text-base leading-tight font-black uppercase italic tracking-wide hover:bg-zinc-800 transition-colors"
                 >
                   Quick Buy
                 </button>
