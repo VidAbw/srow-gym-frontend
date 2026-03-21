@@ -70,3 +70,25 @@ export async function createCheckout(variantId) {
   const res = await shopifyQuery(query);
   window.location.href = res.data.checkoutCreate.checkout.webUrl;
 }
+
+// 3. Fetch a single product by its handle
+export async function getProductByHandle(handle) {
+  const query = `{
+    product(handle: "${handle}") {
+      id
+      title
+      description
+      priceRange {
+        minVariantPrice { amount currencyCode }
+      }
+      images(first: 4) {
+        edges { node { url altText } }
+      }
+      variants(first: 1) {
+        edges { node { id } }
+      }
+    }
+  }`;
+  const res = await shopifyQuery(query);
+  return res.data.product;
+}
