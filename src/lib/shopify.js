@@ -58,17 +58,24 @@ export async function getAllProducts() {
   return res.data.products.edges;
 }
 
-// 2. The "Buy Now" Logic -> Redirects user to Shopify Checkout
+// 2. The "Buy Now" Logic -> Uses the new Cart API to redirect to checkout
 export async function createCheckout(variantId) {
   const query = `
     mutation {
-      checkoutCreate(input: { lineItems: [{ variantId: "${variantId}", quantity: 1 }] }) {
-        checkout { webUrl }
+      cartCreate(input: { lines: [{ merchandiseId: "${variantId}", quantity: 1 }] }) {
+        cart { checkoutUrl }
       }
     }
   `;
+  
   const res = await shopifyQuery(query);
-  window.location.href = res.data.checkoutCreate.checkout.webUrl;
+  
+  if (res.data?.cartCreate?.cart?.checkoutUrl) {
+    window.location.href = res.data.cartCreate.cart.checkoutUrl;
+  } else {
+    console.error("Failed to create cart:", res);
+    alert("Checkout is currently unavailable. Please try again.");
+  }
 }
 
 // 3. Fetch a single product by its handle
